@@ -1,0 +1,50 @@
+# Default configuration for Cherenkov testbed
+
+daq:
+  sample_rate_hz: 10000
+  buffer_size: 100000
+  trigger_threshold: 100.0  # ADC counts
+  pre_trigger_samples: 500
+  post_trigger_samples: 1500
+  
+beam:
+  energy_mev: 120.0
+  pulse_width_ns: 0.5  # FLASH pulse width
+  repetition_rate_hz: 10
+  intensity_range: [1e6, 1e12]  # particles/pulse
+  
+detectors:
+  cherenkov:
+    material: "lead_glass"
+    radiator_thickness_mm: 10.0
+    pmt:
+      type: "photomultiplier"
+      voltage: -1200  # V
+      gain: 1e6
+      dark_current: 100  # Hz
+    readout:
+      digitizer_bits: 14
+      sampling_rate_mhz: 250
+      
+  scintillator:
+    type: "BC-408"
+    thickness_mm: 5.0
+    birks_constant: 0.012  # mm/MeV
+    pmt_voltage: -1000
+    
+  beam_monitors:
+    faraday_cup:
+      calibration_factor: 1.6e-19  # C/particle
+      integration_time_ms: 10
+    current_transformer:
+      bandwidth_mhz: 100
+      
+output:
+  directory: "data"
+  format: "hdf5"
+  compression_level: 5
+  max_file_size_gb: 2.0
+  
+metadata:
+  experiment: "Cherenkov_FLASH_Testbed"
+  proposal_code: "CERN_TEST_2024"

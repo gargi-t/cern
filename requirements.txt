@@ -1,0 +1,6 @@
+numpy==1.26.4
+h5py==3.10.0
+pyyaml==6.0.1
+matplotlib==3.8.0 #simple for now numpy wasnt installing idk why 
+scipy>=1.11.0
+uncertainties>=3.2.1
