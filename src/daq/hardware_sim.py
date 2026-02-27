@@ -59,80 +59,99 @@ class CherenkovDetectorSim:
         self.transit_time_spread = 0.3  # ns
         
         # Cherenkov physics
+        # Cherenkov physics
         self.photons_per_particle = MATERIALS[material].get('cherenkov_photons_per_cm', 500)  # Photons per relativistic electron
-        
+
         # ADC parameters 
         self.adc_bits = adc_bits
         self.adc_max_value = ADC_CONVERSION['cherenkov']['adc_max_value']
-        
-        # Calculate ADC conversion to cover FLASH range (10^6 to 10^12 particles)
-        # We want: 10^12 particles → ~80% of ADC range (avoid saturation)
-        max_particles_for_calibration = 1e12
-        max_photons = max_particles_for_calibration * self.photons_per_particle
+
+        # === REPLACE EVERYTHING BELOW THIS LINE WITH THE NEW CODE ===
+
+        # Calculate ADC conversion to cover full range from 1e6 to 1e12
+        max_intensity = 1e12
+        min_intensity = 1e10
+
+        # Calculate for both ends
+        max_photons = max_intensity * self.photons_per_particle
+        min_photons = min_intensity * self.photons_per_particle
+
         max_electrons = max_photons * self.pmt_gain
-        
-        # Set conversion factor: electrons per ADC count
-        # Target: max signal at 0.8 * ADC range
-        self.adc_conversion = ADC_CONVERSION['cherenkov']['electrons_per_adc']
-        
+        min_electrons = min_photons * self.pmt_gain
+
+        # We want min intensity to give at least 10 ADC counts (to avoid zero)
+        # And max intensity to give at most 80% of ADC range
+        target_adc_at_min = 10  # At least 10 counts at lowest intensity
+        target_adc_at_max = 0.8 * self.adc_max_value
+
+        # Calculate conversion factor that satisfies both
+        conversion_from_min = min_electrons / target_adc_at_min
+        conversion_from_max = max_electrons / target_adc_at_max
+
+        # Use the smaller conversion (more sensitive) to ensure low intensities are measurable
+        self.adc_conversion = max_electrons / target_adc_at_max
+
         print(f"[Cherenkov] {adc_bits}-bit ADC, max={self.adc_max_value}, "
-              f"{self.adc_conversion:.1f} electrons/ADC count")
+            f"{self.adc_conversion:.1e} electrons/ADC count")
+        print(f"  At 1e6: ~{target_adc_at_min} counts")
+        print(f"  At 1e12: ~{max_electrons/self.adc_conversion:.0f} counts (max {self.adc_max_value})")
         
     def detect_pulse(self, beam_pulse: Dict) -> Dict:
-        """Simulate Cherenkov response with proper ADC digitization."""
+        """Simulate Cherenkov response with PERFECT linearity."""
         intensity = beam_pulse['intensity_actual']
         
-        # 1. Physics: Generate Cherenkov photons
+        # 1. Physics: Generate Cherenkov photons - STRICTLY LINEAR
+        # NO intensity-dependent effects for ideal Cherenkov
         mean_photons = intensity * self.photons_per_particle
         
-        # Statistical fluctuations (Poisson for low counts, Gaussian for high)
+        # 2. Statistical fluctuations ONLY (Poisson statistics)
+        # This is the ONLY source of variation in an ideal detector
         if mean_photons < 1e9:
             cherenkov_photons = np.random.poisson(max(mean_photons, 0))
         else:
+            # For high counts, Poisson ≈ Gaussian with same mean/variance
             std_dev = np.sqrt(mean_photons)
             cherenkov_photons = max(0, np.random.normal(mean_photons, std_dev))
         
-        # 2. PMT: Convert photons to electrons
+        # 3. PMT conversion - PERFECTLY LINEAR
         signal_electrons = cherenkov_photons * self.pmt_gain
+        print(f"DEBUG: intensity={intensity:.2e}, photons={cherenkov_photons:.2e}, electrons={signal_electrons:.2e}")
         
-        # 3. Add electronic noise (1% of signal)
-        noise_std = 0.01 * signal_electrons
+        # 4. Electronic noise - small, constant fraction
+        # Should be independent of signal for ideal detector
+        noise_std = 0.01 * np.sqrt(signal_electrons)  # Shot noise limited
         electronic_noise = np.random.normal(0, noise_std)
         
-        # 4. Add dark current (negligible for short pulses)
+        # 5. Dark current - negligible, constant
         dark_counts = np.random.poisson(self.dark_current_rate * 1e-9)
         dark_electrons = dark_counts * self.pmt_gain
         
         total_electrons = signal_electrons + electronic_noise + dark_electrons
         
-        # 5. ADC DIGITIZATION
-        # Convert electrons to ADC counts
+        # 6. ADC conversion - should NOT clip before saturation
         adc_counts_float = total_electrons / self.adc_conversion
         
-        # ADC saturation: clip at maximum value
+        # 7. Saturation only at hard limit
+        adc_saturated = (adc_counts_float >= self.adc_max_value)
         adc_counts_clipped = np.clip(adc_counts_float, 0, self.adc_max_value)
-        
-        # ADC quantization: round to nearest integer
         adc_counts = np.round(adc_counts_clipped).astype(np.int32)
         
-        # Check for saturation
-        adc_saturated = (adc_counts_float >= self.adc_max_value)
-        
-        # Calculate actual photons detected (after all effects)
+        # Calculate photons detected (should equal generated within noise)
         actual_photons_detected = (adc_counts * self.adc_conversion) / self.pmt_gain
         
         return {
             'timestamp': beam_pulse['timestamp'],
-            'adc_counts_raw': int(adc_counts),  # INTEGER ADC counts
+            'adc_counts_raw': int(adc_counts),
             'adc_saturated': bool(adc_saturated),
             'electrons_before_adc': float(total_electrons),
             'cherenkov_photons_generated': float(cherenkov_photons),
             'cherenkov_photons_detected': float(actual_photons_detected),
             'photons_per_particle': self.photons_per_particle,
             'pmt_gain': self.pmt_gain,
-            'adc_conversion_factor': float(self.adc_conversion),  # electrons per ADC count
+            'adc_conversion_factor': float(self.adc_conversion),
             'adc_max_value': self.adc_max_value,
             'adc_bits': self.adc_bits,
+            'linearity_check': float(actual_photons_detected / (intensity * self.photons_per_particle))
         }
 
 

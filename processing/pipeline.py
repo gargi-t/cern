@@ -276,14 +276,21 @@ def process_specific_file(file_path):
     saturated_in_mask = cher_saturated[mask]
     
     # Quality cuts - very loose
+    # Quality cuts - EXTREMELY loose, keep everything physical
     quality_flag = np.ones(len(beam_valid), dtype=bool)
-    
-    # Keep data within 0.001x to 1000x of median (extremely loose)
+
+    # Only remove unphysical values (should be none after mask)
+    quality_flag &= (cher_response >= 0)
+    quality_flag &= (scint_response >= 0)
+
+    # Use 0.001 to 1000 range instead of 0.1 to 10
     median_cher = np.median(cher_response)
     median_scint = np.median(scint_response)
-    
+
     quality_flag &= (cher_response > median_cher * 0.001) & (cher_response < median_cher * 1000)
     quality_flag &= (scint_response > median_scint * 0.001) & (scint_response < median_scint * 1000)
+
+    # Remove the MAD outlier filter entirely
     
     # Final data
     beam_clean = beam_valid[quality_flag]
