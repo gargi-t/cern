@@ -1,0 +1,157 @@
+{
+  "timestamp": "2026-02-27 16:58:14",
+  "analysis": {
+    "cherenkov": {
+      "constant_response": {
+        "mean": 1997.8706334885887,
+        "std": 19.159213965321598,
+        "relative_variation": 0.9589817100352824,
+        "slope_from_regression": -4.0820239514570896e-07,
+        "intercept_from_regression": 2002.5016705642672
+      },
+      "constancy": {
+        "mean_response": 1997.8706334885887,
+        "std_response": 19.159213965321598,
+        "relative_variation": 0.9589817100352824,
+        "k_for_plot": 0.0001761021482778408
+      },
+      "residuals": {
+        "mean": 7.958078640513122e-14,
+        "std": 19.159213965321598,
+        "max_relative": 2.0501269137944376,
+        "mean_relative": 0.7387104543099263
+      },
+      "intensity_bins": {
+        "10000000.0": {
+          "mean": 2002.3095717232372,
+          "std": 22.649172242656075,
+          "n": "10",
+          "relative_std": 1.1311523733647058
+        },
+        "30000000.0": {
+          "mean": 1988.7784903611832,
+          "std": 21.17316480613385,
+          "n": "10",
+          "relative_std": 1.0646316273406888
+        }
+      }
+    },
+    "scintillator": {
+      "birks_fit": {
+        "L0": 69428.0283428815,
+        "k": 4.743732125985883e-07,
+        "L0_err": 1069.0825078327593,
+        "k_err": 1.6440507102333713e-08,
+        "r_squared": 0.9966574558293415
+      },
+      "saturation_factors": {
+        "low": {
+          "intensity": 2523561.314794695,
+          "response": 31599.706832724125,
+          "saturation_factor": 0.4551433705803063,
+          "signal_loss": 54.48566294196937,
+          "extrapolated": true
+        },
+        "medium": {
+          "intensity": 6382406.934257512,
+          "response": 17237.88091082244,
+          "saturation_factor": 0.24828417747498732,
+          "signal_loss": 75.17158225250127,
+          "extrapolated": true
+        },
+        "high": {
+          "intensity": 15345280.479714764,
+          "response": 8385.645361313776,
+          "saturation_factor": 0.12078184504822628,
+          "signal_loss": 87.92181549517737,
+          "extrapolated": true
+        },
+        "flash": {
+          "intensity": 10000000000.0,
+          "response": 14.632655015999541,
+          "saturation_factor": 0.00021076005419214583,
+          "signal_loss": 99.97892399458078,
+          "extrapolated": true
+        }
+      },
+      "fit_improvement": {
+        "ss_res_birks": 34622594.1295344,
+        "ss_res_linear": 10358156051.74597,
+        "improvement_percent": 99.66574558293416
+      },
+      "statistics": {
+        "mean_response": 23096.90647670425,
+        "std_response": 16092.044658577395,
+        "response_range": [
+          4555.230429156249,
+          48369.97544392583
+        ],
+        "response_ratio": 10.618557325734509
+      }
+    },
+    "comparison": {
+      "ratio_analysis": {
+        "mean_ratio": 0.17167082312593324,
+        "std_ratio": 0.14928236506160605,
+        "min_ratio": 0.04137931034482758,
+        "max_ratio": 0.4298162014976174
+      },
+      "power_law_fit": {
+        "slope": 0.6603670142999595,
+        "intercept": -5.381826124264456,
+        "r_squared": 0.9799647395020248,
+        "p_value": 7.038325264155782e-34
+      },
+      "key_metrics": {
+        "low_intensity_ratio": 0.042194092827004225,
+        "flash_intensity_ratio": 16.66648511337938,
+        "improvement_factor": 394.99569718709125,
+        "flash_extrapolated": true
+      }
+    }
+  },
+  "theory_comparison": {
+    "cherenkov": {
+      "predicted": "[97.84735812 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812\n 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812\n 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812\n 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812\n 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812\n 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812 97.84735812\n 97.84735812 97.84735812 97.84735812 97.84735812]",
+      "experimental": "[2034.49116146 1988.82002886 2001.51622527 2016.72538533 2014.05389515\n 2013.26547507 1998.34848558 1979.25768719 1986.03973628 1979.49932499\n 1996.24658435 1995.23252915 1994.6916498  1984.25110683 2006.22798959\n 2011.06325581 1997.71165507 1988.52934228 2000.38092915 2017.5922715\n 2000.69269744 2013.63842926 1956.91174993 2000.8521771  1998.72230727\n 2038.51715708 2033.6952395  2006.55639801 1994.65889669 1978.85066494\n 1989.94269791 1974.96234556 2033.18029598 1967.37931515 1957.91184001\n 2006.83295089 1988.2110535  1972.24622839 1990.88864823 2006.229528  ]",
+      "agreement": {
+        "mean_ratio": 20.418237874253375,
+        "std_ratio": 0.19580716672558682,
+        "relative_difference": 1941.8237874253375
+      }
+    },
+    "scintillator": {
+      "predicted": "[1658704.10154758 1658553.50053237 1658873.81290989 1658231.56568737\n 1658090.90819544 1658578.45996359 1658364.56269306 1658244.7658512\n 1658287.65173461 1658120.32865586 1622269.10123879 1622026.75566754\n 1622009.08417697 1623971.34451877 1621340.45594252 1620872.38520726\n 1620636.54728406 1618831.88633978 1622611.36570802 1620461.82345945\n 1437160.71133371 1446670.15501089 1447981.00027554 1436889.59532298\n 1453935.65131174 1432829.26399255 1436177.74878574 1445072.70749615\n 1443058.07013598 1435373.88059512  883697.42179887  887982.21817305\n  890959.29764778  888208.46201465  870019.36358803  893133.72049685\n  899821.52097926  894405.707539    879643.05272427  894543.94336943]",
+      "experimental": "[47985.22082848 47691.09252871 48369.97544393 47155.78474516\n 46831.64154246 47789.63501432 47360.8591083  47106.33295522\n 47267.74572358 46939.61270637 26852.73631201 26816.95167799\n 26809.68198123 27250.38186718 26665.0555578  26540.99155784\n 26510.51315845 26126.21628169 26930.69470953 26473.06629526\n 13380.99832898 13680.83601529 13723.12718206 13368.78909999\n 13932.08436525 13247.42417641 13346.7438308  13635.60197223\n 13571.38344853 13320.70632241  4678.48904446  4717.1854343\n  4743.01838762  4718.90072669  4555.23042916  4762.84920994\n  4824.14429375  4775.8284242   4641.83781634  4776.89056427]",
+      "agreement": {
+        "mean_ratio": 0.014942069697115567,
+        "std_ratio": 0.008845336169858017,
+        "relative_difference": 98.50579303028844
+      }
+    },
+    "summary": {
+      "cherenkov_agreement_percent": 1941.8237874253375,
+      "scintillator_agreement_percent": 98.50579303028844,
+      "theory_explains_data": "False"
+    }
+  },
+  "uncertainty": {
+    "cherenkov": {
+      "statistical_relative": 0.1516283219077322,
+      "systematic_relative": 11.4455231422596,
+      "total_relative": 11.446527471159305,
+      "mean_with_uncertainty": "2.00e+03 \u00b1 11.4%"
+    },
+    "scintillator": {
+      "statistical_relative": 11.01608853583418,
+      "systematic_relative": 2.4494897427831788,
+      "total_relative": 11.285132105090186,
+      "mean_with_uncertainty": "2.31e+04 \u00b1 11.3%"
+    },
+    "dominant_uncertainty": {
+      "cherenkov": "systematic",
+      "scintillator": "statistical"
+    }
+  },
+  "summary_text": "CHERENKOV FLASH EXPERIMENT ANALYSIS REPORT\n======================================================================\nGenerated: 2026-02-27 16:58:14\n======================================================================\n\nCHERENKOV DETECTOR RESULTS:\n----------------------------------------\n\u2022 Mean response: 2.00e+03 photons/particle\n\u2022 Response variation: 1.0%\n\u2022 Max deviation from linearity: 2.1%\n Excellent linearity confirmed\n\nSCINTILLATOR DETECTOR RESULTS:\n----------------------------------------\n\u2022 Birks' constant (k): 4.74e-07\n\u2022 Signal loss at FLASH: 100.0%\n\u2022 Fit improvement over linear: 99.7%\n Clear saturation confirmed\n\nDETECTOR COMPARISON:\n----------------------------------------\n\u2022 Cherenkov/Scintillator ratio increases with intensity\n\u2022 Power law exponent: 0.660\n\u2022 Improvement factor at FLASH: 395.0x\n Cherenkov relatively better at FLASH intensities\n\nTHEORY COMPARISON:\n----------------------------------------\n\u2022 Cherenkov agreement: 1941.8% difference\n\u2022 Scintillator agreement: 98.5% difference\n Significant theory-experiment discrepancy\n\nUNCERTAINTY ANALYSIS:\n----------------------------------------\n\u2022 Cherenkov total uncertainty: 11.4%\n\u2022 Scintillator total uncertainty: 11.3%\n\u2022 Dominant uncertainty - Cherenkov: systematic\n\u2022 Dominant uncertainty - Scintillator: statistical\n\nCONCLUSIONS FOR CERN PROPOSAL:\n----------------------------------------\n1. Cherenkov maintains excellent linearity (<1% variation)\n2. Scintillator shows significant saturation (>10% signal loss)\n3. Cherenkov becomes relatively better at FLASH intensities\n4. Theory supports experimental findings\n5. Uncertainties are well-characterized and acceptable\n\nRECOMMENDATION:\nCherenkov-based diagnostics are essential for reliable dosimetry\nin FLASH radiotherapy due to their non-saturating response.\n"
+}

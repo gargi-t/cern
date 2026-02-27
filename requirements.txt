@@ -1,0 +1,10 @@
+numpy==1.26.4
+scipy>=1.11.0
+matplotlib>=3.8.0
+
+# Data handling
+h5py>=3.10.0
+pyyaml>=6.0.1
+
+# Uncertainty analysis
+uncertainties>=3.2.1
